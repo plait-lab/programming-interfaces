@@ -120,4 +120,6 @@ body {
   left: 50%;
   text-align: center;
   transform: translate(-50%, -50%);
+  border: 1px solid gray;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3);
 }
