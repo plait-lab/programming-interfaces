@@ -1,42 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/programming-interfaces/main.css">
-</head>
-<body>
-  <script src="/programming-interfaces/dist/elm.js"></script>
-  <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
-  <script> 
-  var app = Elm.Main.init();
-  var socket = new WebSocket('wss://echo.websocket.org');
-  var errorSocket = new WebSocket('wss://echo.websocket.org/error');
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/programming-interfaces/main.css">
+  </head>
+  <body>
+    <script src="/programming-interfaces/dist/elm.js"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+    <script>
+      var app = Elm.Main.init();
+      var socket = new WebSocket('wss://echo.websocket.org');
+      var errorSocket = new WebSocket('wss://echo.websocket.org/error');
 
-  async function runCode(code) {
-    const pyodide = await loadPyodide();
-    pyodide.setStdout({ batched: (msg) => socket.send(msg) });
-    //pyodide.setStderr({ batched: (msg) => socket.send(msg) });
-    await pyodide.loadPackage("numpy")
-    try {
-      pyodide.runPython("import numpy as np\n" + code);
-    } catch (err) {
-      errorSocket.send(err.message)
-    }
-  }
+      async function runCode(code) {
+        const pyodide = await loadPyodide();
+        pyodide.setStdout({ batched: (msg) => socket.send(msg) });
+        //pyodide.setStderr({ batched: (msg) => socket.send(msg) });
+        await pyodide.loadPackage("numpy")
+        try {
+          pyodide.runPython("import numpy as np\n" + code);
+        } catch (err) {
+          errorSocket.send(err.message)
+        }
+      }
 
-  app.ports.sendCode.subscribe(async function(message) {
-    const result = await runCode(message);
-  });
+      app.ports.sendCode.subscribe(async function(message) {
+        const result = await runCode(message);
+      });
 
-  socket.addEventListener("message", function(event) {
-    app.ports.resultReceiver.send(event.data);
-  });
+      socket.addEventListener("message", function(event) {
+        app.ports.resultReceiver.send(event.data);
+      });
 
-  errorSocket.addEventListener("message", function(event) {
-    app.ports.errorReceiver.send(event.data);
-  });
-
-  </script>
-</body>
+      errorSocket.addEventListener("message", function(event) {
+        app.ports.errorReceiver.send(event.data);
+      });
+    </script>
+  </body>
 </html>

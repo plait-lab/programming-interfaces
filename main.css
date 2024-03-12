@@ -33,12 +33,18 @@ body {
 }
 
 #main > div {
-  flex: 1 1 0px;
-  width: 0;
   padding: 30px;
   border: 1px solid gray;
-  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.3);
   background-color: white;
+}
+
+#task {
+  width: 600px;
+}
+
+#work-area {
+  flex-grow: 1;
 }
 
 #work-area textarea {
@@ -46,11 +52,16 @@ body {
   height: 300px;
 }
 
+#work-area.hidden {
+  visibility: hidden;
+}
+
 
 #run-code {
   display: block;
   width: 100%;
-  height: 40px;
+  padding: 10px;
+  font-size: 1em;
 }
 
 #next {
@@ -59,9 +70,15 @@ body {
   gap: 10px;
 }
 
-#next > div {
+#next > button {
   flex: 1 1 0px;
   width: 0;
+  font-size: 1em;
+  padding: 10px;
+}
+
+#next > div {
+  flex: 1 1 0px;
 }
 
 .view-link {
@@ -70,6 +87,7 @@ body {
   padding: 10px;
   border: 1px solid gray;
   color: blue;
+  background-color: rgba(0, 0, 255, 0.05);
 }
 
 .view-link:visited {
@@ -107,7 +125,8 @@ body {
   margin-bottom: 20px;
 }
 
-.options-list > div {
+.options-list > label {
+  display: block;
   margin-bottom: 5px;
 }
 
@@ -121,5 +140,67 @@ body {
   text-align: center;
   transform: translate(-50%, -50%);
   border: 1px solid gray;
-  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.3);
+}
+
+#refresh-banner {
+  width: 100%;
+  background-color: rgba(255, 255, 0, 0.3);
+  border: 1px solid rgba(200, 200, 0, 1);
+  color: rgba(75, 75, 0, 1);
+  padding: 15px;
+  text-align: center;
+}
+
+#prof-question {
+  padding: 30px;
+  border: 1px solid gray;
+  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.3);
+  background-color: white;
+  margin-bottom: 30px;
+}
+
+#prof-question h2 {
+  margin-top: 0;
+}
+
+#prof-answers label {
+  display: block;
+  margin-bottom: 30px;
+  padding: 0 30px;
+  border: 1px solid gray;
+  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.3);
+  background-color: white;
+}
+
+#prof-answers label > div {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+#questionnaire-box {
+  padding: 30px;
+  border: 1px solid gray;
+  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.3);
+  background-color: white;
+}
+
+#questionnaire-box h2 {
+  margin-top: 0;
+}
+
+#translation-buttons button {
+  margin-right: 10px;
+  margin-bottom: 30px;
+  padding: 10px;
+}
+
+#highlighting-explainer button {
+  margin-right: 10px;
+  margin-bottom: 30px;
+  padding: 10px;
+}
+
+.arrow-sep {
+  text-align: center;
 }
