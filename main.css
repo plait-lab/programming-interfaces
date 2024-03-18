@@ -1,3 +1,7 @@
+code {
+  font-size: 16px;
+}
+
 #under-construction {
   background-color: orange;
   font-size: 2em;
@@ -40,7 +44,7 @@ body {
 }
 
 #task {
-  width: 65%;
+  width: 600px;
 }
 
 #work-area {
@@ -130,7 +134,7 @@ body {
   margin-bottom: 5px;
 }
 
-#done {
+#done, #visited-info {
   background-color: white;
   position: fixed;
   width: 500px;
@@ -216,4 +220,12 @@ body {
   margin-top: 100px;
   padding: 5px;
   border-radius: 3px;
+}
+
+#visited-info.show {
+  display: block;
+}
+
+#visited-info.hide {
+  display: none;
 }

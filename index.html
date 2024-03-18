@@ -8,52 +8,63 @@
   <body>
     <script src="/programming-interfaces/dist/elm.js"></script>
     <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+    <div id="visited-info">
+      <p><b>Thank you for your interest!</b></p>
+      <p>We do not have any further tasks for you in this study.</p>
+      <p>Please feel free to exit this webpage now.</p>
+    </div>
     <div id="myapp"></div>
     <script>
+      var visitedInfo = document.getElementById("visited-info");
+      visitedInfo.className = "hide"
+
       var storedState = localStorage.getItem('flag');
       console.log("Retrieved state: ", storedState);
-      var startingState = storedState ? JSON.parse(storedState).visited : false;
+      var visited = storedState ? JSON.parse(storedState).visited : false;
 
-      // const crypto = require('crypto');
-      const userID = self.crypto.randomUUID();
-      var app = Elm.Main.init({flags: [userID, startingState]});
-      var socket = new WebSocket('wss://echo.websocket.org');
-      var errorSocket = new WebSocket('wss://echo.websocket.org/error');
-      var pyodide = null
+      if (visited) {
+        visitedInfo.className = "show";
+      } else {
+        // const crypto = require('crypto');
+        const userID = self.crypto.randomUUID();
+        var app = Elm.Main.init({flags: [userID, visited]});
+        var socket = new WebSocket('wss://echo.websocket.org');
+        var errorSocket = new WebSocket('wss://echo.websocket.org/error');
+        var pyodide = null
 
-      app.ports.storeFlag.subscribe(function(flag) {
-        if (flag.length > 0) {
-            var flagJson = JSON.stringify(flag);
-            localStorage.setItem('flag', flagJson);
-            console.log("Saved flag: ", flagJson);
-        }
-    });
+        app.ports.storeFlag.subscribe(function(flag) {
+          if (flag.length > 0) {
+              localStorage.setItem('flag', flag);
+              console.log("Saved flag: ", flag);
+          }
+        });
 
-      async function runCode(code) {
-        if (pyodide == null) {
-          pyodide = await loadPyodide({packages: ["numpy"]});
-          pyodide.setStdout({ batched: (msg) => socket.send(msg) })
+        async function runCode(code) {
+          if (pyodide == null) {
+            pyodide = await loadPyodide({packages: ["numpy"]});
+            pyodide.setStdout({ batched: (msg) => socket.send(msg) })
+          }
+          const emptyMap = pyodide.toPy({});
+          const emptyScope = {globals: emptyMap, locals: emptyMap};
+          try {
+            pyodide.runPython("import numpy as np\n" + code, emptyScope);
+          } catch (err) {
+            errorSocket.send(err.message)
+          }
         }
-        const emptyMap = pyodide.toPy({});
-        const emptyScope = {globals: emptyMap, locals: emptyMap};
-        try {
-          pyodide.runPython("import numpy as np\n" + code, emptyScope);
-        } catch (err) {
-          errorSocket.send(err.message)
-        }
+
+        app.ports.sendCode.subscribe(async function(message) {
+          const result = await runCode(message);
+        });
+
+        socket.addEventListener("message", function(event) {
+          app.ports.resultReceiver.send(event.data);
+        });
+
+        errorSocket.addEventListener("message", function(event) {
+          app.ports.errorReceiver.send(event.data);
+        });
       }
-
-      app.ports.sendCode.subscribe(async function(message) {
-        const result = await runCode(message);
-      });
-
-      socket.addEventListener("message", function(event) {
-        app.ports.resultReceiver.send(event.data);
-      });
-
-      errorSocket.addEventListener("message", function(event) {
-        app.ports.errorReceiver.send(event.data);
-      });
     </script>
   </body>
 </html>
