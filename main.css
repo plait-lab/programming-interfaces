@@ -40,7 +40,7 @@ body {
 }
 
 #task {
-  width: 600px;
+  width: 65%;
 }
 
 #work-area {
@@ -193,6 +193,10 @@ body {
   margin-right: 10px;
   margin-bottom: 30px;
   padding: 10px;
+}
+
+#canonicalization-explainer {
+  height: 300px;
 }
 
 #highlighting-explainer button {
