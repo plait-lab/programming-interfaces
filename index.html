@@ -19,7 +19,6 @@
       visitedInfo.className = "hide"
 
       var storedState = localStorage.getItem('flag');
-      console.log("Retrieved state: ", storedState);
       var visited = storedState ? JSON.parse(storedState).visited : false;
 
       if (visited) {
@@ -37,7 +36,6 @@
         app.ports.storeFlag.subscribe(function(flag) {
           if (flag.length > 0) {
               localStorage.setItem('flag', flag);
-              console.log("Saved flag: ", flag);
           }
         });
 
