@@ -25,8 +25,10 @@
       if (visited) {
         visitedInfo.className = "show";
       } else {
-        // const crypto = require('crypto');
-        const userID = self.crypto.randomUUID();
+        var storedId = localStorage.getItem('userID');
+        const userID = storedId ? storedId : self.crypto.randomUUID();
+        localStorage.setItem('userID', userID);
+
         var app = Elm.Main.init({flags: [userID, visited]});
         var socket = new WebSocket('wss://echo.websocket.org');
         var errorSocket = new WebSocket('wss://echo.websocket.org/error');

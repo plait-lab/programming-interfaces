@@ -1,5 +1,5 @@
 code {
-  font-size: 16px;
+  font-size: 13px;
 }
 
 #under-construction {
@@ -44,7 +44,7 @@ body {
 }
 
 #task {
-  width: 600px;
+  width: 800px;
 }
 
 #work-area {
@@ -200,7 +200,7 @@ body {
 }
 
 #canonicalization-explainer {
-  height: 300px;
+  height: 500px;
 }
 
 #highlighting-explainer button {
@@ -209,8 +209,8 @@ body {
   padding: 10px;
 }
 
-.arrow-sep {
-  text-align: center;
+#highlighting-code {
+  font-size: 13px;
 }
 
 #exit-and-delete button {
@@ -229,3 +229,29 @@ body {
 #visited-info.hide {
   display: none;
 }
+
+.sequence > code {
+  display: block;
+  white-space: pre;
+  margin: 20px 0;
+}
+
+.sequence-sep {
+  margin: 0;
+}
+
+.diff-changed, .diff-added {
+  background-color: yellow;
+}
+
+.diff-changed .elmsh, .diff-added .elmsh {
+  background: none;
+}
+
+/* .diff-removed {
+  display: inline-block;
+  width: 5px;
+  height: 12px;
+  margin: 0 2px -1px 2px;
+  background-color: red;
+} */
