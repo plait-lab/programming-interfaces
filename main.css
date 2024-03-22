@@ -217,11 +217,20 @@ body {
   font-size: 13px;
 }
 
-#exit-and-delete button {
+#exit button {
   background-color: #FFCCCC;
   color: #CC0000;
   width: 100%;
   margin-top: 100px;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+#exit-and-delete button {
+  background-color: #FFA0A0;
+  color: #CC0000;
+  width: 100%;
+  margin-top: 5px;
   padding: 5px;
   border-radius: 3px;
 }
